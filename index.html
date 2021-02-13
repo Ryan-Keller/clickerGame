@@ -1,0 +1,38 @@
+<HTML>
+    <head>
+        <title>Clicker Game</title>
+    </head>
+
+    <body>
+        <p>Bright Ideas:<span id='brightIdeas'>0</span></p>
+        <img src="Images/lightbulb.png" onclick="addToBrightIdeas(1)">
+
+        <button onclick="buyCursor()">Cursor [<span id='cursorCost'>15</span>] -- <span id='cursors'>0</span></button>
+
+        <script>
+            var brightIdeas = 0;
+
+            var cursorCost = 15;
+            var cursors = 0;
+
+            function buyCursor() {
+                if (brightIdeas >= cursorCost){
+                        brightIdeas -= cursorCost;
+                        cursors += 1;
+                        cursorCost = Math.round(cursorCost * 1.15);
+                        document.getElementById('brightIdeas').innerHTML = brightIdeas;
+                        document.getElementById('cursorCost').innerHTML = cursorCost;
+                        document.getElementById('cursors').innerHTML = cursors;
+
+                }
+            }
+            
+
+            function addToBrightIdeas(amount) {
+                brightIdeas += amount;
+                document.getElementById('brightIdeas').innerHTML = brightIdeas;
+            }
+
+        </script>
+    </body>
+</HTML>
