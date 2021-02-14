@@ -5,16 +5,19 @@
 
     <body>
         <p>Bright Ideas:<span id='brightIdeas'>0</span></p>
-        <img src="Images/lightbulb.png" onclick="addToBrightIdeas(1)">
+        <img src="Images/lightbulb.png" onclick="addToBrightIdeas(clickingPower)">
 
         <button onclick="buyCursor()">Cursor [<span id='cursorCost'>15</span>] -- <span id='cursors'>0</span></button>
+        <button onclick="buyGrandma()">Grandma [<span id='grandmaCost'>150</span>] -- <span id='grandmas'>0</span></button>
 
         <script>
             var brightIdeas = 0;
-
+            var clickingPower= 10;
             var cursorCost = 15;
             var cursors = 0;
-
+            
+            var grandmaCost = 150;
+            var grandmas = 0;
             function buyCursor() {
                 if (brightIdeas >= cursorCost){
                         brightIdeas -= cursorCost;
@@ -26,6 +29,19 @@
 
                 }
             }
+
+            function buyGrandma() {
+                if (brightIdeas >= grandmaCost){
+                        brightIdeas -= grandmaCost;
+                        grandmas += 1;
+                        grandmaCost = Math.round(grandmaCost * 1.25);
+                        document.getElementById('brightIdeas').innerHTML = brightIdeas;
+                        document.getElementById('grandmaCost').innerHTML = grandmaCost;
+                        document.getElementById('grandmas').innerHTML = grandmas;
+
+                }
+            }
+
             
 
             function addToBrightIdeas(amount) {
@@ -33,6 +49,11 @@
                 document.getElementById('brightIdeas').innerHTML = brightIdeas;
             }
 
+            setInterval(function() {
+                brightIdeas += cursors;
+                brightIdeas += grandmas * 5;
+                document.getElementById("brightIdeas").innerHTML = brightIdeas;
+            }, 1000);
         </script>
     </body>
 </HTML>
