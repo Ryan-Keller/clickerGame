@@ -1,15 +1,61 @@
 <HTML>
     <head>
         <title>Clicker Game</title>
+        <style>
+            .sectionLeft {
+                float: left;
+                width: 80%;
+            }
+            .sectionRight {
+                float: right;
+                width: 20%;
+            }
+            .scoreContainer {
+                background-color: rgb(238,238,238, 0.6);
+                width: 50%;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .clickerContainer img {
+                position: relative;
+                transition: all .2s ease-in-out;
+            }
+            .clickerContainer img:hover { transform: scale(1.10);}
+            .clickerContainer img:active {transform: scale(0.99);}  
+
+            
+        </style>
     </head>
 
     <body>
-        <p>Bright Ideas:<span id='brightIdeas'>0</span></p>
-        <img src="Images/lightbulb.png" onclick="addToBrightIdeas(clickingPower)">
+        <div class="sectionLeft">
+            <center>
+            <div class="scoreContainer">
+                <span id = "brightIdeas">0</span> Bright Ideas<br>
+                <span id = "brightIdeasPerSecond">0</span> Bright Ideas Per Second
+            </div>
+            <br>
+            <div class="clickerContainer">
+                <img src="Images/lightbulb.png" onclick="addToBrightIdeas(clickingPower)">
+            </div>  
+            </center>
+        </div>
 
-        <button onclick="buyCursor()">Cursor [<span id='cursorCost'>15</span>] -- <span id='cursors'>0</span></button>
-        <button onclick="buyGrandma()">Grandma [<span id='grandmaCost'>150</span>] -- <span id='grandmas'>0</span></button>
-
+        <div class="sectionRight">
+            <table class="shopButton" onclick="buycursor()">
+                <tr>
+                    <td id ="image"><img src="images/cursor.png"></td>
+                    <td id="nameAndCost">
+                        <p>Cursor</p>
+                        <p><span id="cursorCost">15</span>brightIdeas</p>
+                    </td>
+                    <td id="amount"><span id="cursors">0</span></td>
+                </tr>
+            </table>
+        </div>
+        
         <script>
             var brightIdeas = 0;
             var clickingPower= 10;
@@ -26,6 +72,7 @@
                         document.getElementById('brightIdeas').innerHTML = brightIdeas;
                         document.getElementById('cursorCost').innerHTML = cursorCost;
                         document.getElementById('cursors').innerHTML = cursors;
+                        updateIdeasPerSecond();
 
                 }
             }
@@ -38,6 +85,7 @@
                         document.getElementById('brightIdeas').innerHTML = brightIdeas;
                         document.getElementById('grandmaCost').innerHTML = grandmaCost;
                         document.getElementById('grandmas').innerHTML = grandmas;
+                        updateIdeasPerSecond();
 
                 }
             }
@@ -49,10 +97,16 @@
                 document.getElementById('brightIdeas').innerHTML = brightIdeas;
             }
 
+            function updateIdeasPerSecond(){
+                brightIdeasPerSecond = cursors + grandmas * 5;
+                document.getElementById("brightIdeasPerSecond").innerHTML = brightIdeasPerSecond;
+            }
+
             setInterval(function() {
                 brightIdeas += cursors;
                 brightIdeas += grandmas * 5;
                 document.getElementById("brightIdeas").innerHTML = brightIdeas;
+                docutment.title = brightIdeas + "Ideas - the main stream"
             }, 1000);
         </script>
     </body>
