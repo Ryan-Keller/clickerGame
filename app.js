@@ -15,25 +15,11 @@ var brightIdeas = 0;
 var brightIdeasPerSecond = 0;
 var clickingPower= 10;
 
-
-function buyCursor() {
-    if (brightIdeas >= cursors.cost()){
-            brightIdeas -= cursors.cost();
-            cursors.currentValue += 1;
-            reRender();
-
-
-    }
+function buy(thing) {
+    brightIdeas = generators[thing].buy(brightIdeas)
+    reRender()
 }
 
-function buyGrandma() {
-    if (brightIdeas >= grandmas.cost()){
-            brightIdeas -= grandmas.cost();
-            grandmas.currentValue += 1;
-            reRender();
-
-    }
-}
 function reRender() {
     document.getElementById('brightIdeas').innerHTML = Math.floor(brightIdeas);
     document.getElementById('grandmaCost').innerHTML = grandmas.cost();

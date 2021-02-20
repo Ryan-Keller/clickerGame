@@ -4,7 +4,14 @@ class Generator {
         this.baseCost=baseCost
         this.scalingFactor = scalingFactor
     }
-    cost () {
+    cost() {
         return Math.floor(this.baseCost * this.scalingFactor ** this.currentValue);
+    }
+    buy(brightIdeas) {
+        if (brightIdeas >= this.cost()){
+            brightIdeas -= this.cost();
+            this.currentValue += 1;
+        }
+        return brightIdeas
     }
 }
