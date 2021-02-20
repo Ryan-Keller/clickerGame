@@ -1,15 +1,10 @@
 
+let bigAssButton = document.getElementById("big-ass-button");
+bigAssButton.addEventListener("click", addToBrightIdeas)
 
-let cursors = {
-    currentValue: 0,
-    cost: 15,
+let cursors = new Generator(15, 1.15);
 
-}
-
-let grandmas = {
-    currentValue: 0,
-    cost: 150,
-}
+let grandmas = new Generator(150, 1.25);
 
 let generators = {
     cursors,
@@ -17,13 +12,13 @@ let generators = {
 }
 
 var brightIdeas = 0;
+var brightIdeasPerSecond = 0;
 var clickingPower= 10;
 
 
 function buyCursor() {
-    let cursorCost = cursors.cost *1.15 ** cursors.currentValue;
-    if (brightIdeas >= cursorCost){
-            brightIdeas -= cursorCost;
+    if (brightIdeas >= cursors.cost()){
+            brightIdeas -= cursors.cost();
             cursors.currentValue += 1;
             reRender();
 
@@ -32,28 +27,27 @@ function buyCursor() {
 }
 
 function buyGrandma() {
-    let grandmaCost = grandmas.cost * 1.25 ** grandmas.currentValue;
-    if (brightIdeas >= grandmaCost){
-            brightIdeas -= grandmaCost;
+    if (brightIdeas >= grandmas.cost()){
+            brightIdeas -= grandmas.cost();
             grandmas.currentValue += 1;
             reRender();
 
     }
 }
 function reRender() {
-    document.getElementById('brightIdeas').innerHTML = brightIdeas;
-    document.getElementById('grandmaCost').innerHTML = grandmas.cost * 1.25 ** grandmas.currentValue;;
+    document.getElementById('brightIdeas').innerHTML = Math.floor(brightIdeas);
+    document.getElementById('grandmaCost').innerHTML = grandmas.cost();
     document.getElementById('grandmas').innerHTML = grandmas.currentValue;
-    document.getElementById('cursorCost').innerHTML = cursors.cost *1.15 ** cursors.currentValue;
+    document.getElementById('cursorCost').innerHTML = cursors.cost();
 
     document.getElementById('cursors').innerHTML = cursors.currentValue;
-    document.title = brightIdeas + "Ideas - the main stream"
+    document.title = Math.floor(brightIdeas) + " Ideas - the main stream"
     updateIdeasPerSecond();
 }
 
 
-function addToBrightIdeas(amount) {
-    brightIdeas += amount;
+function addToBrightIdeas() {
+    brightIdeas += clickingPower;
     document.getElementById('brightIdeas').innerHTML = brightIdeas;
 }
 
@@ -61,9 +55,20 @@ function updateIdeasPerSecond(){
     brightIdeasPerSecond = cursors.currentValue + grandmas.currentValue * 25;
     document.getElementById("brightIdeasPerSecond").innerHTML = brightIdeasPerSecond;
 }
-
+/*
 setInterval(function() {
     brightIdeas += cursors.currentValue;
     brightIdeas += grandmas.currentValue * 25;
     reRender()
 }, 1000);
+*/
+let previousTime = 0
+requestAnimationFrame(tick)
+
+function tick(currentTime) {
+    let deltaT = (currentTime - previousTime) / 1000;
+    brightIdeas += deltaT * brightIdeasPerSecond;
+    previousTime = currentTime;
+    reRender();
+    requestAnimationFrame(tick);
+}
